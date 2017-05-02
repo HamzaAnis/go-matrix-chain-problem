@@ -114,7 +114,9 @@ func displayCost(cost [][]int, limit int) {
 	table := termtables.CreateTable()
 	table.AddHeaders("Number", "Rows", "Number")
 	for i := 0; i < limit; i++ {
+		for j := 0; j < limit; j++ {
 
+		}
 	}
 
 }
@@ -126,6 +128,7 @@ func displayTable(matrix []Matrix) {
 func getTable(matrix []Matrix) string {
 	table := termtables.CreateTable()
 	table.AddHeaders("Number", "Rows", "Number")
+	// var rowsAttr []interface{}
 	for i := 0; i < len(matrix); i++ {
 		table.AddRow(i+1, matrix[i].row, matrix[i].column)
 	}
