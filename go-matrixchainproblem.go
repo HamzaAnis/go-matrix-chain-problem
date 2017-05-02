@@ -22,8 +22,8 @@ func main() {
 	// matrix := make([]matrix, limit)
 	var matrix []Matrix
 	p := make([]int, limit)
-	// var product = [10][10]int{}
-	// split := make([][]int, limit)
+	var product = [10][10]int{}
+	var split = [10][10]int{}
 
 	for i := 0; i < limit; i++ {
 		var input int
@@ -67,6 +67,37 @@ func main() {
 	}
 
 	displayTable(matrix)
+
+	for l := 0; l < limit; l++ {
+		color.Red("In loop")
+		for i := 0; i < limit-l; i++ {
+			color.Red("In 2nd loop")
+			j := i + l
+			color.Red("J is", j)
+			product[i][j] = -1
+			for k := i; k < j; k++ {
+				color.Red("In 3rd loop")
+				cost := product[i][k] + product[k+1][j] + (p[i] * p[k+1] * p[j+1])
+				if product[i][j] == -1 {
+					product[i][j] = cost
+				} else if cost < product[i][j] {
+					product[i][j] = cost
+					split[i][j] = k
+				}
+			}
+		}
+	}
+
+	color.Yellow("%v", product[0][limit-1])
+
+	for i := 0; i < limit; i++ {
+		for j := 0; j < limit; j++ {
+			if split[i][j] > 0 && split[i][j] < limit {
+				color.Blue("For i: %v for j: %v split at: %v ", i, j, split[i][j])
+			}
+		}
+	}
+
 }
 func displayTable(matrix []Matrix) {
 	table := termtables.CreateTable()
