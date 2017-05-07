@@ -70,14 +70,10 @@ func main() {
 	displayTable(matrix)
 
 	for l := 0; l < limit; l++ {
-		// color.Red("In loop")
 		for i := 0; i < limit-l; i++ {
-			// color.Red("In 2nd loop")
 			j := i + l
-			// color.Red("J is %v", j)
 			product[i][j] = -1
 			for k := i; k < j; k++ {
-				// color.Red("In 3rd loop")
 				cost := product[i][k] + product[k+1][j] + (p[i] * p[k+1] * p[j+1])
 				if product[i][j] == -1 {
 					product[i][j] = cost
@@ -91,10 +87,12 @@ func main() {
 
 	color.Yellow("%v", product[0][limit-1])
 
+	displayCost(product, limit)
+
 	for i := 0; i < limit; i++ {
 		for j := 0; j < limit; j++ {
 			if split[i][j] > 0 && split[i][j] < limit {
-				color.Blue("For i: %v for j: %v split at: %v ", i, j, split[i][j])
+				color.Blue("For i: %v for j: %v split at: %v ", i+1, j+1, split[i][j]+1)
 			}
 		}
 	}
@@ -110,16 +108,55 @@ func main() {
 func writeHTML(w http.ResponseWriter, r *http.Request, matrix []Matrix) {
 	fmt.Fprintf(w, ReturnPage(getTableHTML(matrix)))
 }
-func displayCost(cost [][]int, limit int) {
+func displayCostB(cost [10][10]int, limit int) {
 	table := termtables.CreateTable()
-	table.AddHeaders("Number", "Rows", "Number")
+	color.Yellow("The cost is following\n")
 	for i := 0; i < limit; i++ {
-		for j := 0; j < limit; j++ {
-
-		}
+		table.AddHeaders(i + 1)
 	}
+	for i := 0; i < limit; i++ {
+		var rows [8][8]interface{}
+		// rows = append([i]rows, i+1)
+		for j := 0; j < limit; j++ {
+			rows[i][j] = cost[i][j]
+			// rows = append([][]rows, cost[i][j])
+			fmt.Printf("%v  ", cost[i][j])
+		}
+		fmt.Println()
+		// fmt.Println(len(rows))
+		// table.AddRow(rows)
+		// p := reflect.ValueOf(&rows).Elem()
+		// p.Set(reflect.Zero(p.Type()))
+	}
+	// color.Yellow(table.Render())
+	fmt.Println()
 
 }
+
+func displayCost(cost [10][10]int, limit int) {
+	// table := termtables.CreateTable()
+	color.Yellow("The cost is following\n")
+	// for i := 0; i < limit; i++ {
+	// 	table.AddHeaders(i + 1)
+	// }
+	for i := 0; i < limit; i++ {
+		// var rows []interface{}
+		// rows = append(rows, i+1)
+		for j := 0; j < limit; j++ {
+			// rows = append(rows, cost[i][j])
+			fmt.Printf("%v  ", cost[i][j])
+		}
+		fmt.Println()
+		// fmt.Println(len(rows))
+		// table.AddRow(rows)
+		// p := reflect.ValueOf(&rows).Elem()
+		// p.Set(reflect.Zero(p.Type()))
+	}
+	// color.Yellow(table.Render())
+	fmt.Println()
+
+}
+
 func displayTable(matrix []Matrix) {
 	color.Yellow(getTable(matrix))
 	// color.Yellow(getTableHTML(matrix))
